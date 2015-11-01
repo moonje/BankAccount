@@ -368,13 +368,54 @@ public class BankGUI extends JFrame {
 			
 			if(e.getSource() == xmlLoad){
 				
-				//bank.loadXML(filename);
+				//File Chooser to open in the current directory
+		        JFileChooser fc = new JFileChooser();
+		        File currentDir = new File(System.getProperty(
+		        		"user.dir"));
+		        fc.setCurrentDirectory(currentDir);
+
+		        // display the file choose
+		        int returnVal = fc.showOpenDialog(null);
+
+		        // did the user select a file?
+		        if (returnVal == JFileChooser.APPROVE_OPTION) {
+		            String filename = fc.getSelectedFile().getName();
+
+		            //Use the provided filename to read customer data
+					try{
+						bank.loadXML(filename);
+					} catch (Exception exception){
+						JOptionPane.showMessageDialog(null, 
+								"Unable to load file. \n" +
+								"Please confirm it is an XML file.");
+					}
+		        }
 				
 			}
 			
 			if(e.getSource() == xmlSave){
 				
-				//bank.saveXML(filename);
+				//File Chooser to open in the current directory
+		        JFileChooser fc = new JFileChooser();
+		        File currentDir = new File(System.getProperty(
+		        		"user.dir"));
+		        fc.setCurrentDirectory(currentDir);
+
+		        // display the file choose
+		        int returnVal = fc.showSaveDialog(null);
+
+		        // did the user select a file?
+		        if (returnVal == JFileChooser.APPROVE_OPTION) {
+		            String filename = fc.getSelectedFile().getName();
+
+		            //Use the provided filename to read customer data
+					try {
+						bank.saveXML(filename);
+					} catch (Exception exception){
+						JOptionPane.showMessageDialog(null, 
+								"Unable to save file.");
+					}
+		        }
 				
 			}
 

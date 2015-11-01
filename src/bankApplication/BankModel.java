@@ -10,6 +10,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**********************************************************************
  * Bank Model Description 
@@ -388,11 +391,13 @@ public class BankModel extends AbstractTableModel {
 			for (int i = 0; i < acts.size(); i++){
 				
 				Account account = acts.get(i);
+				sb.append("<account>\n");
 				
 				if (account instanceof CheckingAccount){
 					
 					CheckingAccount cacct = (CheckingAccount) account;
-					sb.append("<checking>\n");
+					
+					sb.append("<type>Checking</type>\n");
 					sb.append("<account_number>" + 
 							cacct.getAccountNumber()+
 							"</account_number>\n");
@@ -409,13 +414,13 @@ public class BankModel extends AbstractTableModel {
 					sb.append("<monthly_fee>" + 
 							cacct.getMonthlyFee()+
 							"</monthly_fee>\n");
-					sb.append("</checking>\n");
+					
 				}
 				
 				if (account instanceof SavingsAccount){
 					
 					SavingsAccount sacct = (SavingsAccount) account;
-					sb.append("<savings>\n");
+					sb.append("<type>Savings</type>\n");
 					sb.append("<account_number>" + 
 							sacct.getAccountNumber()+
 							"</account_number>\n");
@@ -435,8 +440,9 @@ public class BankModel extends AbstractTableModel {
 					sb.append("<interest>" + 
 							sacct.getInterestRate()+
 							"</interest>\n");
-					sb.append("</savings>\n");
+
 				}
+				sb.append("</account>\n");
 			}
 			sb.append("</accounts>\n");
 			
@@ -470,10 +476,79 @@ public class BankModel extends AbstractTableModel {
 			Document doc = db.parse(file);
 			doc.getDocumentElement().normalize();
 			
-			//NodeList actLst = doc.getElementsByTagName();
+			NodeList actList = doc.getElementsByTagName("account");
+			
+			for(int i = 0; i < actList.getLength(); i++){
+				
+				Node actNode = actList.item(i);
+				
+				if(actNode.getNodeType() == Node.ELEMENT_NODE){
+					
+					Element element = (Element) actNode;
+					if(element.getElementsByTagName("type").item(i).getTextContent().equals("Checking")){
+						CheckingAccount check = new CheckingAccount();
+						check.setAccountNumber(Integer.parseInt(element.getElementsByTagName("account_number").item(i).getTextContent()));
+						check.setAccountOwner(element.getElementsByTagName("account_owner").item(i).getTextContent());
+						check.setDateOpened((convertToGreg(element.getElementsByTagName("date_opened").item(i).getTextContent())));
+						check.setAccountBalance(Double.parseDouble((element.getElementsByTagName("balance").item(i).getTextContent())));
+						check.setMonthlyFee((Double.parseDouble((element.getElementsByTagName("balance").item(i).getTextContent()))));
+						acts.add(check);
+					}
+					else{
+						
+						SavingsAccount save = new SavingsAccount();
+						save.setAccountNumber(Integer.parseInt(element.getElementsByTagName("account_number").item(i).getTextContent()));
+						save.setAccountOwner(element.getElementsByTagName("account_owner").item(i).getTextContent());
+						save.setDateOpened((convertToGreg(element.getElementsByTagName("date_opened").item(i).getTextContent())));
+						save.setAccountBalance(Double.parseDouble((element.getElementsByTagName("balance").item(i).getTextContent())));
+						save.setMinBalance(Double.parseDouble((element.getElementsByTagName("minimum_balance").item(i).getTextContent())));
+						save.setInterestRate(Double.parseDouble((element.getElementsByTagName("interest").item(i).getTextContent())));
+						acts.add(save);
+					}
+					
+				}
+			}
+			this.fireTableDataChanged();
+		}
+		catch(Exception e){
+			
+			e.printStackTrace();
+		}
+	}
+	
+	private GregorianCalendar convertToGreg(String date){
+		
+		//Gets the date opened 
+		String dateString = date;
+		String [] part = dateString.split("/"); 
+		
+		//Declare date variables
+		int month; 
+		int day; 
+		int year; 
+		GregorianCalendar greg; 
+		
+		//set date variables
+		month = Integer.parseInt(part[0]);
+		day = Integer.parseInt(part[1]); 
+		year = Integer.parseInt(part[2]);
+		
+		//create calendar and set lenient mode
+		greg = new GregorianCalendar();
+		greg.setLenient(false);
+		
+		//check if values entered are valid
+		try {
+			greg.set(year, month - 1, day);
+			greg.getTime();
 		}
 		
-		catch(Exception e){
+		//throw an error and set default date if entered date
+		//is invalid
+		catch(IllegalArgumentException e) {
+			throw new IllegalArgumentException();
 		}
+		return greg;
+		
 	}
 }
