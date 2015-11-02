@@ -471,7 +471,8 @@ public class BankModel extends AbstractTableModel {
 		try{
 			acts.clear();
 			File file = new File(filename);
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.
+					newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(file);
 			doc.getDocumentElement().normalize();
@@ -485,24 +486,51 @@ public class BankModel extends AbstractTableModel {
 				if(actNode.getNodeType() == Node.ELEMENT_NODE){
 					
 					Element element = (Element) actNode;
-					if(element.getElementsByTagName("type").item(i).getTextContent().equals("Checking")){
+					if(element.getElementsByTagName("type").item(i).
+							getTextContent().equals("Checking")){
 						CheckingAccount check = new CheckingAccount();
-						check.setAccountNumber(Integer.parseInt(element.getElementsByTagName("account_number").item(i).getTextContent()));
-						check.setAccountOwner(element.getElementsByTagName("account_owner").item(i).getTextContent());
-						check.setDateOpened((convertToGreg(element.getElementsByTagName("date_opened").item(i).getTextContent())));
-						check.setAccountBalance(Double.parseDouble((element.getElementsByTagName("balance").item(i).getTextContent())));
-						check.setMonthlyFee((Double.parseDouble((element.getElementsByTagName("balance").item(i).getTextContent()))));
+						check.setAccountNumber(Integer.parseInt(element.
+								getElementsByTagName("account_number").
+								item(i).getTextContent()));
+						check.setAccountOwner(element.
+								getElementsByTagName("account_owner").
+								item(i).getTextContent());
+						check.setDateOpened((convertToGreg(element.
+								getElementsByTagName("date_opened").
+								item(i).getTextContent())));
+						check.setAccountBalance(Double.parseDouble(
+								(element.getElementsByTagName(
+										"balance").item(i).
+										getTextContent())));
+						check.setMonthlyFee((Double.parseDouble(
+								(element.getElementsByTagName(
+										"balance").item(i).
+										getTextContent()))));
 						acts.add(check);
 					}
 					else{
 						
 						SavingsAccount save = new SavingsAccount();
-						save.setAccountNumber(Integer.parseInt(element.getElementsByTagName("account_number").item(i).getTextContent()));
-						save.setAccountOwner(element.getElementsByTagName("account_owner").item(i).getTextContent());
-						save.setDateOpened((convertToGreg(element.getElementsByTagName("date_opened").item(i).getTextContent())));
-						save.setAccountBalance(Double.parseDouble((element.getElementsByTagName("balance").item(i).getTextContent())));
-						save.setMinBalance(Double.parseDouble((element.getElementsByTagName("minimum_balance").item(i).getTextContent())));
-						save.setInterestRate(Double.parseDouble((element.getElementsByTagName("interest").item(i).getTextContent())));
+						save.setAccountNumber(Integer.parseInt(element.
+								getElementsByTagName("account_number").
+								item(i).getTextContent()));
+						save.setAccountOwner(element.
+								getElementsByTagName("account_owner").
+								item(i).getTextContent());
+						save.setDateOpened((convertToGreg(element.
+								getElementsByTagName("date_opened").
+								item(i).getTextContent())));
+						save.setAccountBalance(Double.parseDouble(
+								(element.getElementsByTagName(
+										"balance").item(i).
+										getTextContent())));
+						save.setMinBalance(Double.parseDouble((element.
+								getElementsByTagName("minimum_balance").
+								item(i).getTextContent())));
+						save.setInterestRate(Double.parseDouble(
+								(element.getElementsByTagName(
+										"interest").item(i).
+										getTextContent())));
 						acts.add(save);
 					}
 					
@@ -516,7 +544,14 @@ public class BankModel extends AbstractTableModel {
 		}
 	}
 	
-	private GregorianCalendar convertToGreg(String date){
+	/******************************************************************
+	 * Converts a string to a Gregorian Calendar 
+	 * 
+	 * @param date, string of the date 
+	 * @throws IllegalArgumentException if not a valid date
+	 *****************************************************************/
+	private GregorianCalendar convertToGreg(String date) throws 
+		IllegalArgumentException{
 		
 		//Gets the date opened 
 		String dateString = date;
@@ -548,7 +583,6 @@ public class BankModel extends AbstractTableModel {
 		catch(IllegalArgumentException e) {
 			throw new IllegalArgumentException();
 		}
-		return greg;
-		
+		return greg;	
 	}
 }
