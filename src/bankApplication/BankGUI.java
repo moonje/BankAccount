@@ -552,34 +552,7 @@ public class BankGUI extends JFrame {
 			
 			//Gets the date opened 
 			String dateString = date.getText();
-			String [] part = dateString.split("/"); 
-			
-			//Declare date variables
-			int month; 
-			int day; 
-			int year; 
-			GregorianCalendar greg; 
-			
-			//set date variables
-			month = Integer.parseInt(part[0]);
-			day = Integer.parseInt(part[1]); 
-			year = Integer.parseInt(part[2]);
-			
-			//create calendar and set lenient mode
-			greg = new GregorianCalendar();
-			greg.setLenient(false);
-			
-			//check if values entered are valid
-			try {
-				greg.set(year, month - 1, day);
-				greg.getTime();
-			}
-			
-			//throw an error and set default date if entered date
-			//is invalid
-			catch(IllegalArgumentException e) {
-				throw new IllegalArgumentException();
-			}
+			GregorianCalendar greg = convertToGreg(dateString);
 			
 			//Gets the balance 
 			double accBal = Double.parseDouble(accBalance.getText());
@@ -620,34 +593,7 @@ public class BankGUI extends JFrame {
 			
 			//Gets the date opened 
 			String dateString = date.getText();
-			String [] part = dateString.split("/"); 
-			
-			//Declare date variables
-			int month; 
-			int day; 
-			int year; 
-			GregorianCalendar greg; 
-			
-			//set date variables
-			month = Integer.parseInt(part[0]);
-			day = Integer.parseInt(part[1]); 
-			year = Integer.parseInt(part[2]);
-			
-			//create calendar and set lenient mode
-			greg = new GregorianCalendar();
-			greg.setLenient(false);
-			
-			//check if values entered are valid
-			try {
-				greg.set(year, month - 1, day);
-				greg.getTime();
-			}
-			
-			//throw an error and set default date if entered date
-			//is invalid
-			catch(IllegalArgumentException e) {
-				throw new IllegalArgumentException();
-			}
+			GregorianCalendar greg = convertToGreg(dateString);
 			
 			//Gets the balance 
 			double accBal = Double.parseDouble(accBalance.getText());
@@ -696,5 +642,47 @@ public class BankGUI extends JFrame {
 	 *****************************************************************/
 	public static void main(String[] args) {
 		BankGUI gui = new BankGUI();
+	}
+	
+	/******************************************************************
+	 * Converts a string to a Gregorian Calendar 
+	 * 
+	 * @param date, string of the date 
+	 * @throws IllegalArgumentException if not a valid date
+	 *****************************************************************/
+	private GregorianCalendar convertToGreg(String date) throws 
+		IllegalArgumentException{
+		
+		//Gets the date opened 
+		String dateString = date;
+		String [] part = dateString.split("/"); 
+		
+		//Declare date variables
+		int month; 
+		int day; 
+		int year; 
+		GregorianCalendar greg; 
+		
+		//set date variables
+		month = Integer.parseInt(part[0]);
+		day = Integer.parseInt(part[1]); 
+		year = Integer.parseInt(part[2]);
+		
+		//create calendar and set lenient mode
+		greg = new GregorianCalendar();
+		greg.setLenient(false);
+		
+		//check if values entered are valid
+		try {
+			greg.set(year, month - 1, day);
+			greg.getTime();
+		}
+		
+		//throw an error and set default date if entered date
+		//is invalid
+		catch(IllegalArgumentException e) {
+			throw new IllegalArgumentException();
+		}
+		return greg;	
 	}
 }
