@@ -9,10 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 /**********************************************************************
  * Bank model used to hold bank accounts and save and load accounts. 
@@ -206,7 +203,8 @@ public class BankModel extends AbstractTableModel {
 	 * @throws Exception if unable to load the file 
 	 *****************************************************************/
 	public void loadBinary(String filename) throws Exception{
-		if (filename.substring(filename.lastIndexOf(".") + 1).equals("bin")) {
+		if (filename.substring(filename.lastIndexOf(".") + 1).equals(
+				"bin")) {
 			try{
 				FileInputStream fi = new FileInputStream(filename);
 				ObjectInputStream is = new ObjectInputStream(fi);
@@ -294,7 +292,8 @@ public class BankModel extends AbstractTableModel {
 	 * @throws Exception if unable to load the file 
 	 *****************************************************************/
 	public void loadText(String filename) throws Exception{
-		if (filename.substring(filename.lastIndexOf(".") + 1).equals("txt")) {
+		if (filename.substring(filename.lastIndexOf(".") + 1).equals(
+				"txt")) {
 
 			try {
 				// open the data file
@@ -319,15 +318,16 @@ public class BankModel extends AbstractTableModel {
 						int month = Integer.parseInt(date[0]);
 						int day = Integer.parseInt(date[1]);
 						int year = Integer.parseInt(date[2]);
-						GregorianCalendar greg = new GregorianCalendar(year, 
-								month - 1, day);
+						GregorianCalendar greg = new GregorianCalendar(
+								year, month - 1, day);
 
 						double balance = Double.parseDouble(part[4]);
 
 						double fee = Double.parseDouble(part[5]);
 
 						CheckingAccount check = new CheckingAccount(
-								accountNumber, part[2], greg, balance, fee);
+								accountNumber, part[2], greg, balance, 
+								fee);
 
 						newAccount(check);
 
@@ -341,8 +341,8 @@ public class BankModel extends AbstractTableModel {
 						int month = Integer.parseInt(date[0]);
 						int day = Integer.parseInt(date[1]);
 						int year = Integer.parseInt(date[2]);
-						GregorianCalendar greg = new GregorianCalendar(year, 
-								month - 1, day);
+						GregorianCalendar greg = new GregorianCalendar(
+								year, month - 1, day);
 
 						double balance = Double.parseDouble(part[4]);
 
@@ -473,14 +473,22 @@ public class BankModel extends AbstractTableModel {
 	 * 			xml file
 	 *****************************************************************/
 	public void loadXML(String filename) throws Exception {
-		if (filename.substring(filename.lastIndexOf(".") + 1).equals("xml")) {
+		
+		if (filename.substring(filename.lastIndexOf(".") + 1).
+				equals("xml")) {
+			
 			try{
 				acts.clear();
+				
 				File file = new File(filename);
+				
 				DocumentBuilderFactory dbf = DocumentBuilderFactory.
 						newInstance();
+				
 				DocumentBuilder db = dbf.newDocumentBuilder();
+				
 				Document doc = db.parse(file);
+				
 				doc.getDocumentElement().normalize();
 
 				NodeList actList = doc.getElementsByTagName("account");
@@ -492,50 +500,61 @@ public class BankModel extends AbstractTableModel {
 					if(actNode.getNodeType() == Node.ELEMENT_NODE){
 
 						Element element = (Element) actNode;
-						if(element.getElementsByTagName("type").item(i).
-								getTextContent().equals("Checking")){
-							CheckingAccount check = new CheckingAccount();
-							check.setAccountNumber(Integer.parseInt(element.
-									getElementsByTagName("account_number").
-									item(i).getTextContent()));
+						
+						String type = element.getElementsByTagName(
+								"type").item(0).getFirstChild().
+								getNodeValue();
+						
+						if(type.equals("Checking")){
+							
+							CheckingAccount check = new CheckingAccount
+									();
+							check.setAccountNumber(Integer.parseInt(
+									element.getElementsByTagName(
+											"account_number").
+									item(0).getTextContent()));
 							check.setAccountOwner(element.
-									getElementsByTagName("account_owner").
-									item(i).getTextContent());
+									getElementsByTagName(
+											"account_owner").
+									item(0).getTextContent());
 							check.setDateOpened((convertToGreg(element.
 									getElementsByTagName("date_opened").
-									item(i).getTextContent())));
+									item(0).getTextContent())));
 							check.setAccountBalance(Double.parseDouble(
 									(element.getElementsByTagName(
-											"balance").item(i).
+											"balance").item(0).
 											getTextContent())));
 							check.setMonthlyFee((Double.parseDouble(
 									(element.getElementsByTagName(
-											"monthly_fee").item(i).
+											"monthly_fee").item(0).
 											getTextContent()))));
 							acts.add(check);
-						}
-						else{
+							
+						}else{
 
 							SavingsAccount save = new SavingsAccount();
-							save.setAccountNumber(Integer.parseInt(element.
-									getElementsByTagName("account_number").
-									item(i).getTextContent()));
+							save.setAccountNumber(Integer.parseInt(
+									element.getElementsByTagName(
+											"account_number").
+									item(0).getTextContent()));
 							save.setAccountOwner(element.
-									getElementsByTagName("account_owner").
-									item(i).getTextContent());
+									getElementsByTagName(
+											"account_owner").
+									item(0).getTextContent());
 							save.setDateOpened((convertToGreg(element.
 									getElementsByTagName("date_opened").
-									item(i).getTextContent())));
+									item(0).getTextContent())));
 							save.setAccountBalance(Double.parseDouble(
 									(element.getElementsByTagName(
-											"balance").item(i).
+											"balance").item(0).
 											getTextContent())));
-							save.setMinBalance(Double.parseDouble((element.
-									getElementsByTagName("minimum_balance").
-									item(i).getTextContent())));
+							save.setMinBalance(Double.parseDouble(
+									(element.getElementsByTagName(
+											"minimum_balance").
+									item(0).getTextContent())));
 							save.setInterestRate(Double.parseDouble(
 									(element.getElementsByTagName(
-											"interest").item(i).
+											"interest").item(0).
 											getTextContent())));
 							acts.add(save);
 						}
@@ -543,14 +562,13 @@ public class BankModel extends AbstractTableModel {
 					}
 				}
 				this.fireTableDataChanged();
-			}
-			catch(Exception e){
-
+				
+			}catch(Exception e){
 				e.printStackTrace();
 			}
-		}
-		else
+		} else {
 			throw new IOException();
+		}
 	}
 
 	/******************************************************************
