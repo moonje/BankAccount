@@ -309,7 +309,7 @@ public class BankGUI extends JFrame {
 
 		            //Use the provided filename to read customer data
 					try{
-						bank.saveText(filename);
+						bank.saveText(filename + ".txt");
 					} catch (Exception exception){
 						JOptionPane.showMessageDialog(null, 
 								"Unable to save file.");
@@ -360,7 +360,7 @@ public class BankGUI extends JFrame {
 
 		            //Use the provided filename to read customer data
 					try {
-						bank.saveBinary(filename);
+						bank.saveBinary(filename + ".bin");
 					} catch (IOException exception){
 						JOptionPane.showMessageDialog(null, 
 								"Unable to save file.");
@@ -411,7 +411,7 @@ public class BankGUI extends JFrame {
 
 		            //Use the provided filename to read customer data
 					try {
-						bank.saveXML(filename);
+						bank.saveXML(filename + ".xml");
 					} catch (Exception exception){
 						JOptionPane.showMessageDialog(null, 
 								"Unable to save file.");
