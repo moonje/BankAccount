@@ -15,7 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**********************************************************************
- * Bank Model Description 
+ * Bank model used to hold bank accounts and save and load accounts. 
  * 
  * @author Kelsey Brennan
  * @author Jennifer Moon
@@ -122,7 +122,6 @@ public class BankModel extends AbstractTableModel {
 								getMinBalance());
 			}
 		}
-
 		return null;
 	}
 
@@ -381,7 +380,9 @@ public class BankModel extends AbstractTableModel {
 	 * 			xml file
 	 *****************************************************************/
 	public void saveXML(String filename){
+		
 		PrintWriter out = null;
+		
 		try{
 			out = new PrintWriter(new BufferedWriter(new FileWriter(
 					filename)));
@@ -449,13 +450,11 @@ public class BankModel extends AbstractTableModel {
 			out.println(sb);
 		
 		}
+		
 		catch(Exception e){ 
-			
 			e.printStackTrace();
 			
-		}
-		finally{
-			
+		} finally {
 			out.close();
 		}	
 	}
@@ -504,7 +503,7 @@ public class BankModel extends AbstractTableModel {
 										getTextContent())));
 						check.setMonthlyFee((Double.parseDouble(
 								(element.getElementsByTagName(
-										"balance").item(i).
+										"monthly_fee").item(i).
 										getTextContent()))));
 						acts.add(check);
 					}
@@ -583,6 +582,7 @@ public class BankModel extends AbstractTableModel {
 		catch(IllegalArgumentException e) {
 			throw new IllegalArgumentException();
 		}
+		
 		return greg;	
 	}
 }

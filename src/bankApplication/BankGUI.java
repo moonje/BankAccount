@@ -16,7 +16,9 @@ import java.util.GregorianCalendar;
 import javax.swing.*;
 
 /***********************************************************************
- * 
+ * User interface used to simulate a bank database with the capability
+ * to sort, create new accounts, modify accounts, delete accounts, 
+ * and save & load accounts. 
  * 
  * @author Jennifer Moon
  * @author Kelsey Brennan
@@ -114,7 +116,8 @@ public class BankGUI extends JFrame {
 		table = new JTable(bank);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
-		table.setPreferredScrollableViewportSize(new Dimension(650,600));
+		table.setPreferredScrollableViewportSize(new Dimension(650,600)
+				);
 		table.getColumnModel().getColumn(4).setPreferredWidth(250);
 		tables.add(scrollPane);
 
@@ -253,7 +256,6 @@ public class BankGUI extends JFrame {
 
 		//Returns the built menu bar
 		return menuBar;
-
 	}
 
 	/******************************************************************
@@ -389,8 +391,7 @@ public class BankGUI extends JFrame {
 								"Unable to load file. \n" +
 								"Please confirm it is an XML file.");
 					}
-		        }
-				
+		        }	
 			}
 			
 			if(e.getSource() == xmlSave){
@@ -415,8 +416,7 @@ public class BankGUI extends JFrame {
 						JOptionPane.showMessageDialog(null, 
 								"Unable to save file.");
 					}
-		        }
-				
+		        }	
 			}
 
 			if (e.getSource() == quit) {
@@ -441,24 +441,18 @@ public class BankGUI extends JFrame {
 			//create a new checking account
 			if (e.getSource() == checking) {
 
-				//CheckingAccount check = new CheckingAccount();
-				//CheckingInputDialog c = new CheckingInputDialog(this, check);
-				//bank.addAccount();
-
-				int option = JOptionPane.showConfirmDialog(null, checkingMessage, 
-						"Create a New Checking Account", JOptionPane.OK_CANCEL_OPTION);
+				int option = JOptionPane.showConfirmDialog(null, 
+						checkingMessage, 
+						"Create a New Checking Account", 
+						JOptionPane.OK_CANCEL_OPTION);
+				
 				if (option == JOptionPane.OK_OPTION){
 					newChecking();
 				}
-
-
 			}
 
 			//create a new savings account
 			if (e.getSource() == savings) {
-
-				//SavingsAccount save = new SavingsAccount();
-				//SavingsInputDialog s = new SavingsInputDialog(save);
 
 				int option = JOptionPane.showConfirmDialog(null, 
 						savingsMessage, 
@@ -472,7 +466,9 @@ public class BankGUI extends JFrame {
 
 			//update an existing account
 			if (e.getSource() == update) {
+				
 				int index = table.getSelectedRow();
+				
 				if (index >= 0) {
 					Account account = bank.getAccountAt(index);
 
@@ -481,7 +477,8 @@ public class BankGUI extends JFrame {
 						accOwn.setText(account.getAccountOwner());
 						date.setText(account.calendarToString(account.
 								getDateOpened()));
-						accBalance.setText("" +account.getAccountBalance());
+						accBalance.setText("" +account.
+								getAccountBalance());
 						fee.setText("" + ((CheckingAccount) account).
 								getMonthlyFee());
 
@@ -500,11 +497,12 @@ public class BankGUI extends JFrame {
 						accOwn.setText(account.getAccountOwner());
 						date.setText(account.calendarToString(account.
 								getDateOpened()));
-						accBalance.setText("" +account.getAccountBalance());
+						accBalance.setText("" +account.
+								getAccountBalance());
 
-						minimum.setText("" + (((SavingsAccount) account).
+						minimum.setText("" + (((SavingsAccount)account).
 								getMinBalance()));
-						interest.setText("" + (((SavingsAccount) account).
+						interest.setText("" +(((SavingsAccount)account).
 								getInterestRate()));
 
 						int option = JOptionPane.showConfirmDialog(null, 
@@ -522,6 +520,7 @@ public class BankGUI extends JFrame {
 
 			//delete an account
 			if (e.getSource() == delete) {
+				
 				// Ask user if they want to delete the account
 				Object[] options = {"Yes", "No"};
 				int reply = JOptionPane.showOptionDialog(null, "Delete"
@@ -546,6 +545,7 @@ public class BankGUI extends JFrame {
 	 * @throws IllegalArgumentException if incorrect user input
 	 *****************************************************************/
 	public void newChecking() throws IllegalArgumentException{
+		
 		try {
 			//Gets the account number
 			int acctNum = Integer.parseInt(accNum.getText());
@@ -587,6 +587,7 @@ public class BankGUI extends JFrame {
 	 * @throws IllegalArgumentException if incorrect user input
 	 *****************************************************************/
 	public void newSavings() throws IllegalArgumentException{
+		
 		try {
 			//Gets the account number
 			int acctNum = Integer.parseInt(accNum.getText());

@@ -23,5 +23,4 @@ public class AccountOwnerComparator implements Comparator<Account>{
 	public int compare(Account a1, Account a2) {
 		return a1.getAccountOwner().compareTo(a2.getAccountOwner());
 	}
-
 }

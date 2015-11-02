@@ -12,7 +12,6 @@ import java.util.Comparator;
  *********************************************************************/
 public class AccountDateOpenedComparator implements Comparator<Account>{
 
-	
 	/******************************************************************
 	 * compares two accounts
 	 * 
@@ -24,5 +23,4 @@ public class AccountDateOpenedComparator implements Comparator<Account>{
 	public int compare(Account a1, Account a2) {
 		return a1.getDateOpened().compareTo(a2.getDateOpened());
 	}
-
 }
