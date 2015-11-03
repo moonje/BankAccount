@@ -677,6 +677,14 @@ public class BankGUI extends JFrame {
 		try {
 			greg.set(year, month - 1, day);
 			greg.getTime();
+			
+			//Warns the user if the date is in the future 
+			GregorianCalendar now = new GregorianCalendar();
+			
+			if (greg.compareTo(now) > 0){
+				JOptionPane.showMessageDialog(null, "Warning:"
+						+ "\nDate opened is in the future");
+			}
 		}
 		
 		//throw an error and set default date if entered date
