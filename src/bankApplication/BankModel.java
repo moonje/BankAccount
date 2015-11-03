@@ -3,8 +3,6 @@ package bankApplication;
 import java.io.*;
 import java.text.*;
 import java.util.*;
-
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

@@ -1,16 +1,12 @@
 package bankApplication;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
@@ -546,9 +542,19 @@ public class BankGUI extends JFrame {
 	 *****************************************************************/
 	public void newChecking() throws IllegalArgumentException{
 		
+		String inputWarning = "";
+		
 		try {
 			//Gets the account number
 			int acctNum = Integer.parseInt(accNum.getText());
+			
+			//Make sure account number isn't in use
+			for(int i = 0; i < bank.getRowCount(); i++){
+				if(acctNum == bank.getAccountAt(i).getAccountNumber()){
+					inputWarning += "Account number already in use.";
+					throw new IllegalArgumentException();
+				}
+			}
 			
 			//Gets the date opened 
 			String dateString = date.getText();
@@ -558,15 +564,19 @@ public class BankGUI extends JFrame {
 			double accBal = Double.parseDouble(accBalance.getText());
 			
 			//Make sure balance is not negative
-			if (accBal < 0)
+			if (accBal < 0){
+				inputWarning += "Account balance cannot be negative.";
 				throw new IllegalArgumentException();
+			}
 			
 			//Gets the monthly fee
 			double accFee = Double.parseDouble(fee.getText());
 			
 			//Make sure fee is not negative
-			if (accFee < 0)
+			if (accFee < 0){
+				inputWarning += "Account fee cannot be negative.";
 				throw new IllegalArgumentException();
+			}
 			
 			//Creates a new account
 			CheckingAccount cnew = new CheckingAccount(acctNum, 
@@ -576,7 +586,8 @@ public class BankGUI extends JFrame {
 			bank.newAccount(cnew);
 			
 		} catch (Exception e){
-			JOptionPane.showMessageDialog(null, "Error in input!");
+			JOptionPane.showMessageDialog(null, 
+					"Error in input!\n" + inputWarning);
 		}
 	}
 	/******************************************************************
@@ -588,9 +599,19 @@ public class BankGUI extends JFrame {
 	 *****************************************************************/
 	public void newSavings() throws IllegalArgumentException{
 		
+		String inputWarning = "";
+		
 		try {
 			//Gets the account number
 			int acctNum = Integer.parseInt(accNum.getText());
+			
+			//Make sure account number isn't in use
+			for(int i = 0; i < bank.getRowCount(); i++){
+				if(acctNum == bank.getAccountAt(i).getAccountNumber()){
+					inputWarning += "Account number already in use.";
+					throw new IllegalArgumentException();
+				}
+			}
 			
 			//Gets the date opened 
 			String dateString = date.getText();
@@ -600,8 +621,10 @@ public class BankGUI extends JFrame {
 			double accBal = Double.parseDouble(accBalance.getText());
 			
 			//Make sure balance is not negative
-			if (accBal < 0)
+			if (accBal < 0){
+				inputWarning += "Account balance cannot be negative.";
 				throw new IllegalArgumentException();
+			}
 			
 			double minBal = 1;
 			
@@ -610,19 +633,28 @@ public class BankGUI extends JFrame {
 			if(Double.parseDouble(minimum.getText()) <= accBal){
 				minBal = Double.parseDouble(minimum.getText());
 				
-				//Make sure minimum balance is not negative
-				if (minBal < 0)
+			//Make sure minimum balance is not negative
+				if (minBal < 0){
+					inputWarning += 
+							"Minimum balance cannot be negative.";
 					throw new IllegalArgumentException();
+				}
 			}
-			else
+			else{
+				inputWarning += 
+						"Minimum balance cannot be greater than "
+						+ "the account balance.";
 				throw new IllegalArgumentException();
+			}
 	
 			//Gets the interest rate 
 			double intRate = Double.parseDouble(interest.getText());
 			
 			//Make sure interest rate is not negative
-			if (intRate < 0)
+			if (intRate < 0){
+				inputWarning += "Interest rate cannot be negative.";
 				throw new IllegalArgumentException();
+			}
 			
 			//Creates a new account
 			SavingsAccount snew = new SavingsAccount(acctNum, 
@@ -632,7 +664,8 @@ public class BankGUI extends JFrame {
 			bank.newAccount(snew);
 			
 		} catch (Exception e){
-			JOptionPane.showMessageDialog(null, "Error in input!");
+			JOptionPane.showMessageDialog(null,
+					"Error in input!\n" + inputWarning);
 		}
 	}
 
