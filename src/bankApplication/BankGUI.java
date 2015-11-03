@@ -551,8 +551,7 @@ public class BankGUI extends JFrame {
 			//Make sure account number isn't in use
 			for(int i = 0; i < bank.getRowCount(); i++){
 				if(acctNum == bank.getAccountAt(i).getAccountNumber()){
-					inputWarning += "Account number already in use.";
-					throw new IllegalArgumentException();
+					inputWarning += "Account number already in use. \n";
 				}
 			}
 			
@@ -565,8 +564,7 @@ public class BankGUI extends JFrame {
 			
 			//Make sure balance is not negative
 			if (accBal < 0){
-				inputWarning += "Account balance cannot be negative.";
-				throw new IllegalArgumentException();
+				inputWarning += "Account balance cannot be negative. \n";
 			}
 			
 			//Gets the monthly fee
@@ -574,7 +572,10 @@ public class BankGUI extends JFrame {
 			
 			//Make sure fee is not negative
 			if (accFee < 0){
-				inputWarning += "Account fee cannot be negative.";
+				inputWarning += "Account fee cannot be negative. \n";
+			}
+			
+			if(!inputWarning.equals("")){
 				throw new IllegalArgumentException();
 			}
 			
@@ -608,8 +609,7 @@ public class BankGUI extends JFrame {
 			//Make sure account number isn't in use
 			for(int i = 0; i < bank.getRowCount(); i++){
 				if(acctNum == bank.getAccountAt(i).getAccountNumber()){
-					inputWarning += "Account number already in use.";
-					throw new IllegalArgumentException();
+					inputWarning += "Account number already in use. \n";
 				}
 			}
 			
@@ -622,8 +622,7 @@ public class BankGUI extends JFrame {
 			
 			//Make sure balance is not negative
 			if (accBal < 0){
-				inputWarning += "Account balance cannot be negative.";
-				throw new IllegalArgumentException();
+				inputWarning += "Account balance cannot be negative. \n";
 			}
 			
 			double minBal = 1;
@@ -636,15 +635,13 @@ public class BankGUI extends JFrame {
 			//Make sure minimum balance is not negative
 				if (minBal < 0){
 					inputWarning += 
-							"Minimum balance cannot be negative.";
-					throw new IllegalArgumentException();
+							"Minimum balance cannot be negative. \n";
 				}
 			}
 			else{
 				inputWarning += 
 						"Minimum balance cannot be greater than "
-						+ "the account balance.";
-				throw new IllegalArgumentException();
+						+ "the account balance. \n";
 			}
 	
 			//Gets the interest rate 
@@ -652,7 +649,10 @@ public class BankGUI extends JFrame {
 			
 			//Make sure interest rate is not negative
 			if (intRate < 0){
-				inputWarning += "Interest rate cannot be negative.";
+				inputWarning += "Interest rate cannot be negative. \n";
+			}
+			
+			if(!inputWarning.equals("")){
 				throw new IllegalArgumentException();
 			}
 			
