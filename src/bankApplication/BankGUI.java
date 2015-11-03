@@ -564,7 +564,8 @@ public class BankGUI extends JFrame {
 			
 			//Make sure balance is not negative
 			if (accBal < 0){
-				inputWarning += "Account balance cannot be negative. \n";
+				inputWarning += 
+						"Account balance cannot be negative. \n";
 			}
 			
 			//Gets the monthly fee
@@ -622,7 +623,8 @@ public class BankGUI extends JFrame {
 			
 			//Make sure balance is not negative
 			if (accBal < 0){
-				inputWarning += "Account balance cannot be negative. \n";
+				inputWarning += 
+						"Account balance cannot be negative. \n";
 			}
 			
 			double minBal = 1;

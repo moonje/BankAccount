@@ -2,7 +2,6 @@ package bankApplication;
 
 import java.util.Comparator;
 
-
 /**********************************************************************
  * Class used to sort accounts by account number
  * 

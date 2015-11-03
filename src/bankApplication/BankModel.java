@@ -109,14 +109,14 @@ public class BankModel extends AbstractTableModel {
 						f.format(((CheckingAccount) acts.get(row)).
 								getMonthlyFee());
 
-			}
-			else{
+			}else{
 				return "Interest: " + (((SavingsAccount)acts.get(row)).
 						getInterestRate()) + "%" +"  Minimum Balance: " 
 						+ f.format(((SavingsAccount)acts.get(row)).
 								getMinBalance());
 			}
 		}
+		
 		return null;
 	}
 
@@ -187,8 +187,8 @@ public class BankModel extends AbstractTableModel {
 			ObjectOutputStream os = new ObjectOutputStream(fo);
 			os.writeObject(acts);
 			os.close();
-		}
-		catch(IOException e){
+			
+		}catch(IOException e){
 			throw new IOException(); 
 		}
 	}
@@ -201,6 +201,7 @@ public class BankModel extends AbstractTableModel {
 	 * @throws Exception if unable to load the file 
 	 *****************************************************************/
 	public void loadBinary(String filename) throws Exception{
+		
 		if (filename.substring(filename.lastIndexOf(".") + 1).equals(
 				"bin")) {
 			try{
@@ -209,8 +210,8 @@ public class BankModel extends AbstractTableModel {
 				acts = (ArrayList<Account>)is.readObject();
 				fireTableRowsUpdated(0, acts.size()-1);
 				is.close();
-			}
-			catch(IOException e){
+				
+			}catch(IOException e){
 
 				throw new IOException(); 
 
@@ -218,8 +219,7 @@ public class BankModel extends AbstractTableModel {
 
 				throw new ClassNotFoundException();
 			}
-		}
-		else
+		} else
 			throw new IOException();
 
 	}
@@ -270,7 +270,6 @@ public class BankModel extends AbstractTableModel {
 							sacct.getMinBalance() + "," + 
 							sacct.getInterestRate() + "\n");
 				}
-
 			}
 
 		} catch (IOException e) {
@@ -358,23 +357,20 @@ public class BankModel extends AbstractTableModel {
 
 				//close file
 				fileReader.close();
-			}
 
 			// could not find file
-			catch (FileNotFoundException error) {
+			} catch (FileNotFoundException error) {
 				throw new FileNotFoundException();
-			}
-
+			
 			// problem reading the file
-			catch (IOException error) {
+			} catch (IOException error) {
 				throw new IOException();
-			}
-
-			catch (Exception error){
+			
+			} catch (Exception error){
 				throw new Exception();
 			}
-		}
-		else
+			
+		} else
 			throw new IOException();
 	}
 
@@ -454,9 +450,7 @@ public class BankModel extends AbstractTableModel {
 
 			out.println(sb);
 
-		}
-
-		catch(Exception e){ 
+		} catch(Exception e){ 
 			e.printStackTrace();
 
 		} finally {
@@ -601,11 +595,10 @@ public class BankModel extends AbstractTableModel {
 		try {
 			greg.set(year, month - 1, day);
 			greg.getTime();
-		}
 
 		//throw an error and set default date if entered date
 		//is invalid
-		catch(IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			throw new IllegalArgumentException();
 		}
 
