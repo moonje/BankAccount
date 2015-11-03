@@ -8,7 +8,7 @@ import java.util.Comparator;
  * @author Kelsey Brennan
  * @author Jennifer Moon
  * @author Molly Alger
- * @version 10/30/2015
+ * @version 11/03/2015
  *********************************************************************/
 public class AccountOwnerComparator implements Comparator<Account>{
 

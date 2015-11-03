@@ -19,7 +19,7 @@ import javax.swing.*;
  * @author Jennifer Moon
  * @author Kelsey Brennan
  * @author Molly Alger
- * @version 10/30/2015
+ * @version 11/03/2015
  **********************************************************************/
 public class BankGUI extends JFrame {
 
@@ -630,7 +630,7 @@ public class BankGUI extends JFrame {
 			
 			//Gets the minimum balance and makes sure it's not
 			//greater than the current balance
-			if(Double.parseDouble(minimum.getText()) <= accBal){
+			if(Double.parseDouble(minimum.getText()) < accBal){
 				minBal = Double.parseDouble(minimum.getText());
 				
 			//Make sure minimum balance is not negative
